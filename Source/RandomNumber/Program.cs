@@ -26,11 +26,25 @@ Console.WriteLine("Random Number Demonstration in .NET");
 Console.WriteLine("---------------------------------");
 Console.WriteLine();
 
-for (var i = 0; i < 10; i++)
+var dict = new Dictionary<string, int>();
+
+for (var i = 0; i < 10_000_000; i++)
 {
-    var randomNumbers = RandomNumberGenerator.GetBytes(32);
-    Console.WriteLine("Random Number " + i + " : "
-                      + Convert.ToBase64String(randomNumbers));
+    var randomNumbers = RandomNumberGenerator.GetBytes(6);
+    var s = Convert.ToBase64String(randomNumbers);
+
+    Console.WriteLine("Random Number " + i + " : " + s);
+    if (dict.ContainsKey(s))
+    {
+        dict[s]++;
+        Console.WriteLine("Collision!");
+        Console.ReadLine();
+        return;
+    }
+    else
+    {
+        dict.Add(s, 1);
+    }
 }
 
 Console.ReadLine();
